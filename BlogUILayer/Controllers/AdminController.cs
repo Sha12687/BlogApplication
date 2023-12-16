@@ -157,28 +157,24 @@ namespace BlogUILayer.Controllers
                 return View("Edit", "Admin");
             }
         }
-    
 
-        // GET: Admin/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
 
-        // POST: Admin/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(int Id)
         {
-            try
-            {
-                // TODO: Add delete logic here
 
-                return RedirectToAction("Index");
-            }
-            catch
+          var temp= empRepository.GetEmpInfoById(Id);
+            if (temp != null)
             {
-                return View();
+                empRepository.DeleteEmpInfo(temp.EmpInfoId);
+                return RedirectToAction("Home", "Admin");
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "Something went wrong ";
+                return RedirectToAction("Home", "Admin");
             }
         }
+
     }
 }

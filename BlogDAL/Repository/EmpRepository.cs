@@ -43,6 +43,7 @@ namespace BlogDAL.Repository
             var empInfo = _dbContext.EmpInfos.Find(empInfoId);
             if (empInfo != null)
                 _dbContext.EmpInfos.Remove(empInfo);
+            _dbContext.SaveChanges();
         }
 
         public void SaveChanges()
