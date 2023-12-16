@@ -29,11 +29,13 @@ namespace BlogDAL.Repository
         public void AddEmpInfo(EmpInfo empInfo)
         {
             _dbContext.EmpInfos.Add(empInfo);
+            _dbContext.SaveChanges();
         }
 
         public void UpdateEmpInfo(EmpInfo empInfo)
         {
             _dbContext.Entry(empInfo).State = EntityState.Modified;
+            _dbContext.SaveChanges();
         }
 
         public void DeleteEmpInfo(int empInfoId)
@@ -46,6 +48,12 @@ namespace BlogDAL.Repository
         public void SaveChanges()
         {
             _dbContext.SaveChanges();
+        }
+
+        public EmpInfo GetEmpInfoById(int EmpInfoId)
+        {
+            return _dbContext.EmpInfos.Find(EmpInfoId);
+           
         }
     }
 }

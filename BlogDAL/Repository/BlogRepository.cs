@@ -27,6 +27,7 @@ namespace BlogDAL.Repository
             var blogInfo = _dbContext.BlogInfos.Find(blogInfoId);
             if (blogInfo != null)
                 _dbContext.BlogInfos.Remove(blogInfo);
+                _dbContext.SaveChanges();
         }
 
         public IEnumerable<BlogInfo> GetAllBlogInfos()
@@ -66,6 +67,7 @@ namespace BlogDAL.Repository
         public void UpdateBlogInfo(BlogInfo blogInfo)
         {
             _dbContext.Entry(blogInfo).State = EntityState.Modified;
+            _dbContext.SaveChanges();
         }
     }
 }

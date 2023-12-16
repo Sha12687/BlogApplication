@@ -60,7 +60,7 @@ namespace AppUILayer.Controllers
                 var blogWrtieByLoggedInEmployee = blogReposotiry.GetBlogInfoByEmployeeId(email);
                 var blogViewModels = blogWrtieByLoggedInEmployee.Select(blog => new BlogViewModel
                 {
-
+                    Id=blog.BlogInfoId,
                     Title = blog.Title,
                     Subject = blog.Subject,
                     DateOfCreation = blog.DateOfCreation,
@@ -79,6 +79,97 @@ namespace AppUILayer.Controllers
 
             return RedirectToAction("Index", "Blog");
         }
+        public ActionResult Edit(int id) { 
+        var editBlog=blogReposotiry.GetBlogInfoById(id+1);
+            if (editBlog != null)
+            {
+                var blog = new BlogViewModel
+                {
+                    Id = editBlog.BlogInfoId,
+                    Title = editBlog.Title,
+                    Subject = editBlog.Subject,
+                    DateOfCreation=editBlog.DateOfCreation,
+                    BlogUrl = editBlog.BlogUrl
+                };
+                return View(blog);
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "Something went wrong. Blog not found.";
+                return RedirectToAction("Home","Employee");
+            }
+        }
 
+        [HttpPost]
+        public ActionResult Edit( BlogViewModel blogView) {
+            if (ModelState.IsValid)
+            {
+                // Retrieve the existing blog from the database
+                var existingBlog = blogReposotiry.GetBlogInfoById(blogView.Id+1);
+
+                if (existingBlog != null)
+                {
+                    existingBlog.Title = blogView.Title;
+                    existingBlog.Subject = blogView.Subject;
+                    existingBlog.DateOfCreation = blogView.DateOfCreation;
+                    existingBlog.BlogUrl = blogView.BlogUrl;
+                    blogReposotiry.UpdateBlogInfo(existingBlog);
+                    return RedirectToAction("Home", "Employee");
+                }
+                else
+                {
+                    TempData["ErrorMessage"] = "Something went wrong. Blog not updated.";
+                    return RedirectToAction("Edit", "Employee");
+                }
+            }
+
+            // If ModelState is not valid, return the view with validation errors
+            return View(blogView);
+        }
+
+        public ActionResult Delete( int id )
+        {
+            var blogToDelete = blogReposotiry.GetBlogInfoById(id);
+
+            if (blogToDelete != null)
+            {
+                var blog = new BlogViewModel
+                {
+                    Id=blogToDelete.BlogInfoId,
+                    Title = blogToDelete.Title,
+                    Subject = blogToDelete.Subject,
+                    DateOfCreation = blogToDelete.DateOfCreation,
+                    BlogUrl = blogToDelete.BlogUrl
+                };
+                return View(blog);
+            }
+            else
+            {
+                // If the blog is not found, you might want to handle it accordingly
+                TempData["ErrorMessage"] = "Blog not found.";
+                return RedirectToAction("Home", "Employee");
+            }
+        }
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(BlogViewModel blogViewModel)
+        {
+            // Retrieve the blog information by ID
+            var blogToDelete = blogReposotiry.GetBlogInfoById(blogViewModel.Id);
+
+            if (blogToDelete != null)
+            {
+             
+                blogReposotiry.DeleteBlogInfo(blogToDelete.BlogInfoId);
+                TempData["SuccessMessage"] = "Blog deleted successfully.";
+
+                return RedirectToAction("Home", "Employee");
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "Blog not found.";
+                return RedirectToAction("Home", "Employee");
+            }
+        }
     }
 }

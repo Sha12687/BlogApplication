@@ -70,6 +70,7 @@ namespace BlogUILayer.Controllers
 
             return View(blogInfo);
         }
+
     public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";

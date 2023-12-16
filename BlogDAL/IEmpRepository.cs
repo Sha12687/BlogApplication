@@ -9,6 +9,7 @@ namespace BlogDAL
     public interface IEmpRepository
     {
         EmpInfo GetEmpInfoByEmialId(string EmailId);
+        EmpInfo GetEmpInfoById(int EmpInfoId);
         IEnumerable<EmpInfo> GetAllEmpInfos();
         void AddEmpInfo(EmpInfo empInfo);
         void UpdateEmpInfo(EmpInfo empInfo);

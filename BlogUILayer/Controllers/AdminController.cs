@@ -65,6 +65,7 @@ namespace BlogUILayer.Controllers
             var employeeList = empRepository.GetAllEmpInfos();
             var employeeViewModelList = employeeList.Select(admin => new EmoloyeeViewModel
             {
+                Id =admin.EmpInfoId,
                 EmailId = admin.EmailId,
                 Name = admin.Name,
                 DateOfJoining = admin.DateOfJoining
@@ -73,43 +74,90 @@ namespace BlogUILayer.Controllers
             return View(employeeViewModelList);
         }
 
-        // POST: Admin/Create
-        [HttpPost]
-        public ActionResult Create(FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add insert logic here
 
-                return RedirectToAction("Index");
-            }
-            catch
+        [HttpGet, ActionName("Create")]
+        public ActionResult Create()
+        {
+            EmployeeRegisterModel model= new EmployeeRegisterModel
             {
-                return View();
+             
+                DateOfJoining= DateTime.Now,
+            };
+            return View(model);
+        }
+      
+        [HttpPost,ActionName("Create")]
+        public ActionResult CreateEmployee(EmployeeRegisterModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var NewEmploye = new EmpInfo
+                {
+                    Name= model.Name,
+                    DateOfJoining= model.DateOfJoining,
+                    EmailId= model.EmailId,
+                    PassCode=model.Password
+                };
+                empRepository.AddEmpInfo(NewEmploye);
+                return RedirectToAction("Home","Admin");
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "Something went wrong ";
+                return View("Create", "Admin");
             }
         }
 
         // GET: Admin/Edit/5
         public ActionResult Edit(int id)
         {
+
+            var employee = empRepository.GetEmpInfoById(id);
+
+            if (employee != null)
+            {
+
+                var employeeViewModel = new EmoloyeeViewModel
+                {
+                    Id = employee.EmpInfoId,
+                    Name = employee.Name,
+                    EmailId = employee.EmailId,
+                    DateOfJoining= employee.DateOfJoining,
+                };
+                return View(employeeViewModel);
+            }
+
+            // Map the employee data to your view model
+
+
             return View();
         }
 
         // POST: Admin/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(EmoloyeeViewModel employeeViewModel)
         {
-            try
+            if (ModelState.IsValid)
             {
-                // TODO: Add update logic here
+                // Map the view model data back to your data model
+                var employee = new EmpInfo
+                {
+                    DateOfJoining = employeeViewModel.DateOfJoining,
+                    EmpInfoId = employeeViewModel.Id,
+                    Name = employeeViewModel.Name,
+                    EmailId = employeeViewModel.EmailId
+                };
 
-                return RedirectToAction("Index");
+                empRepository.UpdateEmpInfo(employee);
+                return RedirectToAction("Home","Admin"); // Redirect to the index action or another appropriate action
             }
-            catch
+            else
             {
-                return View();
+                TempData["ErrorMessage"] = "Something went wrong ";
+                return View("Edit", "Admin");
             }
         }
+    
 
         // GET: Admin/Delete/5
         public ActionResult Delete(int id)
