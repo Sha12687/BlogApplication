@@ -80,7 +80,7 @@ namespace AppUILayer.Controllers
             return RedirectToAction("Index", "Blog");
         }
         public ActionResult Edit(int id) { 
-        var editBlog=blogReposotiry.GetBlogInfoById(id+1);
+        var editBlog=blogReposotiry.GetBlogInfoById(id);
             if (editBlog != null)
             {
                 var blog = new BlogViewModel
@@ -105,7 +105,7 @@ namespace AppUILayer.Controllers
             if (ModelState.IsValid)
             {
                 // Retrieve the existing blog from the database
-                var existingBlog = blogReposotiry.GetBlogInfoById(blogView.Id+1);
+                var existingBlog = blogReposotiry.GetBlogInfoById(blogView.Id);
 
                 if (existingBlog != null)
                 {

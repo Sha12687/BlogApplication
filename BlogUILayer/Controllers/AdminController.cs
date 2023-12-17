@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 
 namespace BlogUILayer.Controllers
 {
@@ -123,6 +124,7 @@ namespace BlogUILayer.Controllers
                     Name = employee.Name,
                     EmailId = employee.EmailId,
                     DateOfJoining= employee.DateOfJoining,
+                    Password=employee.PassCode
                 };
                 return View(employeeViewModel);
             }
@@ -145,7 +147,8 @@ namespace BlogUILayer.Controllers
                     DateOfJoining = employeeViewModel.DateOfJoining,
                     EmpInfoId = employeeViewModel.Id,
                     Name = employeeViewModel.Name,
-                    EmailId = employeeViewModel.EmailId
+                    EmailId = employeeViewModel.EmailId,
+                    PassCode = employeeViewModel.Password
                 };
 
                 empRepository.UpdateEmpInfo(employee);
@@ -175,6 +178,13 @@ namespace BlogUILayer.Controllers
                 return RedirectToAction("Home", "Admin");
             }
         }
+        public ActionResult Logout()
+        {
+            Session.Clear();
+            Session.Abandon();
+            FormsAuthentication.SignOut();
 
+            return RedirectToAction("Index", "Blog");
+        }
     }
 }
