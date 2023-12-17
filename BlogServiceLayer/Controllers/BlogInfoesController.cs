@@ -10,6 +10,7 @@ using System.Web.Http;
 using System.Web.Http.Cors;
 using System.Web.Http.Description;
 using BlogDAL;
+using BlogServiceLayer.Models;
 
 namespace BlogServiceLayer.Controllers
 {
@@ -19,27 +20,46 @@ namespace BlogServiceLayer.Controllers
         private BlogDbContext db = new BlogDbContext();
 
         // GET: api/BlogInfoes
-        public IQueryable<BlogInfo> GetBlogInfos()
+        public IQueryable<BlogInfoMolel> GetBlogInfos()
         {
-            return db.BlogInfos;
+            var blogInfoModelList = db.BlogInfos;
+            var convertToblogInfoModelList = blogInfoModelList.Select(blog =>new BlogInfoMolel
+            {
+                BlogInfoId=blog.BlogInfoId,
+                BlogUrl=blog.BlogUrl,
+                Title=blog.Title,
+                Subject=blog.Subject,
+                DateOfCreation=blog.DateOfCreation,
+                Employee=blog.Employee,
+            });
+            return convertToblogInfoModelList;
         }
 
         // GET: api/BlogInfoes/5
         [ResponseType(typeof(BlogInfo))]
         public IHttpActionResult GetBlogInfo(int id)
         {
-            BlogInfo blogInfo = db.BlogInfos.Find(id);
-            if (blogInfo == null)
+            BlogInfo blog = db.BlogInfos.Find(id);
+            var convertToblogInfoMode =  new BlogInfoMolel
+            {
+                BlogInfoId = blog.BlogInfoId,
+                BlogUrl = blog.BlogUrl,
+                Title = blog.Title,
+                Subject = blog.Subject,
+                DateOfCreation = blog.DateOfCreation,
+                Employee = blog.Employee,
+            };
+            if (convertToblogInfoMode == null)
             {
                 return NotFound();
             }
 
-            return Ok(blogInfo);
+            return Ok(convertToblogInfoMode);
         }
 
         // PUT: api/BlogInfoes/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutBlogInfo(int id, BlogInfo blogInfo)
+        public IHttpActionResult PutBlogInfo(int id, BlogInfoMolel blogInfo)
         {
             if (!ModelState.IsValid)
             {
@@ -50,8 +70,16 @@ namespace BlogServiceLayer.Controllers
             {
                 return BadRequest();
             }
-
-            db.Entry(blogInfo).State = EntityState.Modified;
+            var convertToblogInfoMode = new BlogInfo
+            {
+                BlogInfoId = blogInfo.BlogInfoId,
+                BlogUrl = blogInfo.BlogUrl,
+                Title = blogInfo.Title,
+                Subject = blogInfo.Subject,
+                DateOfCreation = blogInfo.DateOfCreation,
+                Employee = blogInfo.Employee,
+            };
+            db.Entry(convertToblogInfoMode).State = EntityState.Modified;
 
             try
             {
@@ -74,14 +102,22 @@ namespace BlogServiceLayer.Controllers
 
         // POST: api/BlogInfoes
         [ResponseType(typeof(BlogInfo))]
-        public IHttpActionResult PostBlogInfo(BlogInfo blogInfo)
+        public IHttpActionResult PostBlogInfo(BlogInfoMolel blogInfo)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-
-            db.BlogInfos.Add(blogInfo);
+            var convertToblogInfoMode = new BlogInfo
+            {
+                BlogInfoId = blogInfo.BlogInfoId,
+                BlogUrl = blogInfo.BlogUrl,
+                Title = blogInfo.Title,
+                Subject = blogInfo.Subject,
+                DateOfCreation = blogInfo.DateOfCreation,
+                Employee = blogInfo.Employee,
+            };
+            db.BlogInfos.Add(convertToblogInfoMode);
             db.SaveChanges();
 
             return CreatedAtRoute("DefaultApi", new { id = blogInfo.BlogInfoId }, blogInfo);
@@ -91,16 +127,24 @@ namespace BlogServiceLayer.Controllers
         [ResponseType(typeof(BlogInfo))]
         public IHttpActionResult DeleteBlogInfo(int id)
         {
-            BlogInfo blogInfo = db.BlogInfos.Find(id);
-            if (blogInfo == null)
+            BlogInfo blog = db.BlogInfos.Find(id);
+            if (blog == null)
             {
                 return NotFound();
             }
-
-            db.BlogInfos.Remove(blogInfo);
+            var convertToblogInfoMode = new BlogInfoMolel
+            {
+                BlogInfoId = blog.BlogInfoId,
+                BlogUrl = blog.BlogUrl,
+                Title = blog.Title,
+                Subject = blog.Subject,
+                DateOfCreation = blog.DateOfCreation,
+                Employee = blog.Employee,
+            };
+            db.BlogInfos.Remove(blog);
             db.SaveChanges();
 
-            return Ok(blogInfo);
+            return Ok(convertToblogInfoMode);
         }
 
         protected override void Dispose(bool disposing)
