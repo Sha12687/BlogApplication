@@ -9,6 +9,7 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using BlogDAL;
+using BlogServiceLayer.Models;
 
 namespace BlogServiceLayer.Controllers
 {
@@ -17,27 +18,46 @@ namespace BlogServiceLayer.Controllers
         private BlogDbContext db = new BlogDbContext();
 
         // GET: api/EmpInfoes
-        public IQueryable<EmpInfo> GetEmpInfos()
+        public IQueryable<EmpInfoModel> GetEmpInfos()
         {
-            return db.EmpInfos;
+            var employeList= db.EmpInfos;
+            var convertToModelList = employeList.Select(emp => new EmpInfoModel
+            {
+                EmailId = emp.EmailId,
+                Name = emp.Name,
+                PassCode = emp.PassCode,
+                DateOfJoining = emp.DateOfJoining,
+                EmpInfoId = emp.EmpInfoId,
+
+            });
+            return convertToModelList;
         }
 
         // GET: api/EmpInfoes/5
         [ResponseType(typeof(EmpInfo))]
         public IHttpActionResult GetEmpInfo(int id)
         {
-            EmpInfo empInfo = db.EmpInfos.Find(id);
-            if (empInfo == null)
+            EmpInfo emp = db.EmpInfos.Find(id);
+            var convertToEmpInfoModel =  new EmpInfoModel
+            {
+                EmailId = emp.EmailId,
+                Name = emp.Name,
+                PassCode = emp.PassCode,
+                DateOfJoining = emp.DateOfJoining,
+                EmpInfoId = emp.EmpInfoId,
+
+            };
+            if (convertToEmpInfoModel == null)
             {
                 return NotFound();
             }
 
-            return Ok(empInfo);
+            return Ok(convertToEmpInfoModel);
         }
 
         // PUT: api/EmpInfoes/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutEmpInfo(int id, EmpInfo empInfo)
+        public IHttpActionResult PutEmpInfo(int id, EmpInfoModel empInfo)
         {
             if (!ModelState.IsValid)
             {
@@ -48,8 +68,16 @@ namespace BlogServiceLayer.Controllers
             {
                 return BadRequest();
             }
+            var convertToEmpInfoModel = new EmpInfo
+            {
+                EmailId = empInfo.EmailId,
+                Name = empInfo.Name,
+                PassCode = empInfo.PassCode,
+                DateOfJoining = empInfo.DateOfJoining,
+                EmpInfoId = empInfo.EmpInfoId,
 
-            db.Entry(empInfo).State = EntityState.Modified;
+            };
+            db.Entry(convertToEmpInfoModel).State = EntityState.Modified;
 
             try
             {
@@ -72,14 +100,22 @@ namespace BlogServiceLayer.Controllers
 
         // POST: api/EmpInfoes
         [ResponseType(typeof(EmpInfo))]
-        public IHttpActionResult PostEmpInfo(EmpInfo empInfo)
+        public IHttpActionResult PostEmpInfo(EmpInfoModel empInfo)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
+            var convertToEmpInfoModel = new EmpInfo
+            {
+                EmailId = empInfo.EmailId,
+                Name = empInfo.Name,
+                PassCode = empInfo.PassCode,
+                DateOfJoining = empInfo.DateOfJoining,
+                EmpInfoId = empInfo.EmpInfoId,
 
-            db.EmpInfos.Add(empInfo);
+            };
+            db.EmpInfos.Add(convertToEmpInfoModel);
             db.SaveChanges();
 
             return CreatedAtRoute("DefaultApi", new { id = empInfo.EmpInfoId }, empInfo);
@@ -94,11 +130,20 @@ namespace BlogServiceLayer.Controllers
             {
                 return NotFound();
             }
+            var convertToEmpInfoModel = new EmpInfoModel
+            {
+                EmailId = empInfo.EmailId,
+                Name = empInfo.Name,
+                PassCode = empInfo.PassCode,
+                DateOfJoining = empInfo.DateOfJoining,
+                EmpInfoId = empInfo.EmpInfoId,
+
+            };
 
             db.EmpInfos.Remove(empInfo);
             db.SaveChanges();
 
-            return Ok(empInfo);
+            return Ok(convertToEmpInfoModel);
         }
 
         protected override void Dispose(bool disposing)

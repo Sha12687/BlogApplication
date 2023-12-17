@@ -7,7 +7,7 @@ using System.Web;
 
 namespace BlogServiceLayer.Models
 {
-    public class EmpInfo
+    public class EmpInfoModel
     {
         public int EmpInfoId { get; set; }
         public string EmailId { get; set; }
