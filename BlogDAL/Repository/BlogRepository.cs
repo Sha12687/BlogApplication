@@ -43,7 +43,7 @@ namespace BlogDAL.Repository
         }
         public BlogInfo GetBlogInfoById(int blogInfoId)
         {
-            return _dbContext.BlogInfos.Find(blogInfoId);
+            return _dbContext.BlogInfos.Include(blog=>blog.Employee).FirstOrDefault(blog=>blog.BlogInfoId==blogInfoId);
         }
 
         public void SaveChanges()

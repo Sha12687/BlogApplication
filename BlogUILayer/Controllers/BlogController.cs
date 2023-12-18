@@ -60,7 +60,7 @@ namespace BlogUILayer.Controllers
                     Title = blogInfo.Title,
                     Subject = blogInfo.Subject,
                     DateOfCreation = DateTime.Now,
-                    BlogUrl = "https://designyourownblog.com/blog/",
+                    BlogUrl = blogInfo.BlogUrl,
                 };
 
                 _blogRepository.AddBlogWithForeignKey(loggedInEmployee, blog);

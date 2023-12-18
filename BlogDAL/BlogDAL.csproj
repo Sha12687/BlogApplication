@@ -62,13 +62,13 @@
     <Compile Include="IAdminRepository.cs" />
     <Compile Include="IBlogReposotiry.cs" />
     <Compile Include="IEmpRepository.cs" />
-    <Compile Include="Migrations\202312151806071_InitailDb.cs" />
-    <Compile Include="Migrations\202312151806071_InitailDb.designer.cs">
-      <DependentUpon>202312151806071_InitailDb.cs</DependentUpon>
+    <Compile Include="Migrations\202312180420019_InitialCreate.cs" />
+    <Compile Include="Migrations\202312180420019_InitialCreate.designer.cs">
+      <DependentUpon>202312180420019_InitialCreate.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202312152139294_AddUniqueConstraintToEmail.cs" />
-    <Compile Include="Migrations\202312152139294_AddUniqueConstraintToEmail.designer.cs">
-      <DependentUpon>202312152139294_AddUniqueConstraintToEmail.cs</DependentUpon>
+    <Compile Include="Migrations\202312180428258_newMigration.cs" />
+    <Compile Include="Migrations\202312180428258_newMigration.designer.cs">
+      <DependentUpon>202312180428258_newMigration.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -81,11 +81,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202312151806071_InitailDb.resx">
-      <DependentUpon>202312151806071_InitailDb.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202312180420019_InitialCreate.resx">
+      <DependentUpon>202312180420019_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202312152139294_AddUniqueConstraintToEmail.resx">
-      <DependentUpon>202312152139294_AddUniqueConstraintToEmail.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202312180428258_newMigration.resx">
+      <DependentUpon>202312180428258_newMigration.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

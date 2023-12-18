@@ -3,7 +3,7 @@
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class InitailDb : DbMigration
+    public partial class InitialCreate : DbMigration
     {
         public override void Up()
         {
@@ -37,18 +37,20 @@
                 c => new
                     {
                         EmpInfoId = c.Int(nullable: false, identity: true),
-                        EmailId = c.String(),
+                        EmailId = c.String(maxLength: 255),
                         Name = c.String(),
                         DateOfJoining = c.DateTime(nullable: false),
                         PassCode = c.String(),
                     })
-                .PrimaryKey(t => t.EmpInfoId);
+                .PrimaryKey(t => t.EmpInfoId)
+                .Index(t => t.EmailId, unique: true, name: "UQ_EmailId");
             
         }
         
         public override void Down()
         {
             DropForeignKey("dbo.BlogInfoes", "Employee_EmpInfoId", "dbo.EmpInfoes");
+            DropIndex("dbo.EmpInfoes", "UQ_EmailId");
             DropIndex("dbo.BlogInfoes", new[] { "Employee_EmpInfoId" });
             DropTable("dbo.EmpInfoes");
             DropTable("dbo.BlogInfoes");

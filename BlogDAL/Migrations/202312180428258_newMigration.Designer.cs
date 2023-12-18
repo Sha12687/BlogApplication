@@ -7,13 +7,13 @@ namespace BlogDAL.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.4.4")]
-    public sealed partial class InitailDb : IMigrationMetadata
+    public sealed partial class newMigration : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(InitailDb));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(newMigration));
         
         string IMigrationMetadata.Id
         {
-            get { return "202312151806071_InitailDb"; }
+            get { return "202312180428258_newMigration"; }
         }
         
         string IMigrationMetadata.Source

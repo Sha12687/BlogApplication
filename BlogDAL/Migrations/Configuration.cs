@@ -10,6 +10,7 @@
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
+            ContextKey = "BlogDAL.BlogDbContext";
         }
 
         protected override void Seed(BlogDAL.BlogDbContext context)
@@ -20,7 +21,6 @@
                 Password = "Sha@1234"
             };
             context.AdminInfos.Add(admin);
-
             // Add additional seeding for other tables if needed
 
             base.Seed(context);

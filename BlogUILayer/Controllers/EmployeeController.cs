@@ -139,7 +139,8 @@ namespace AppUILayer.Controllers
                     Title = blogToDelete.Title,
                     Subject = blogToDelete.Subject,
                     DateOfCreation = blogToDelete.DateOfCreation,
-                    BlogUrl = blogToDelete.BlogUrl
+                    BlogUrl = blogToDelete.BlogUrl,
+                    EmployeeName=blogToDelete.Employee.Name
                 };
                 return View(blog);
             }

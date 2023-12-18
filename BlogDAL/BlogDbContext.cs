@@ -11,7 +11,9 @@ namespace BlogDAL
     {
         public BlogDbContext() :base("name=BlogTrackerConnection")
         {
-            Database.SetInitializer(new DbInitializer());
+            Database.SetInitializer<BlogDbContext>(null);
+
+       
         }
         public DbSet<AdminInfo> AdminInfos { get; set; }
         public DbSet<EmpInfo> EmpInfos { get; set; }
