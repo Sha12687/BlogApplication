@@ -47,7 +47,8 @@ namespace BlogDAL.Repository
         {
             var empInfo = _dbContext.EmpInfos.Find(empInfoId);
             if (empInfo != null)
-                _dbContext.EmpInfos.Remove(empInfo);
+          _dbContext.BlogInfos.RemoveRange(_dbContext.BlogInfos.Where(b => b.Employee.EmpInfoId == empInfo.EmpInfoId));
+            _dbContext.EmpInfos.Remove(empInfo);
             _dbContext.SaveChanges();
         }
 
