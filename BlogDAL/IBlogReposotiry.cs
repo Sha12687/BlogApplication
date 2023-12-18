@@ -11,9 +11,11 @@ namespace BlogDAL
         BlogInfo GetBlogInfoById(int blogInfoId);
         IEnumerable<BlogInfo> GetAllBlogInfos();
         void AddBlogInfo(BlogInfo blogInfo);
+        BlogInfo AddBlogInfoTest(BlogInfo blogInfo);
         IEnumerable<BlogInfo> GetBlogInfoByEmployeeId(string EmailId);
         void UpdateBlogInfo(BlogInfo blogInfo);
         void DeleteBlogInfo(int blogInfoId);
+        BlogInfo DeleteBlogInfoTest(BlogInfo blogInfoId);
         void AddBlogWithForeignKey(string loggedInEmployeeEmail, BlogInfo blogInfo);
         void SaveChanges();
     }

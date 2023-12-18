@@ -31,7 +31,12 @@ namespace BlogDAL.Repository
             _dbContext.EmpInfos.Add(empInfo);
             _dbContext.SaveChanges();
         }
-
+        public EmpInfo AddEmpInfoTest(EmpInfo empInfo)
+        {
+         var test=   _dbContext.EmpInfos.Add(empInfo);
+            _dbContext.SaveChanges();
+            return test;
+        }
         public void UpdateEmpInfo(EmpInfo empInfo)
         {
             _dbContext.Entry(empInfo).State = EntityState.Modified;
@@ -55,6 +60,19 @@ namespace BlogDAL.Repository
         {
             return _dbContext.EmpInfos.Find(EmpInfoId);
            
+        }
+
+        public bool DeleteEmpInfoTest(int empId)
+        {
+            var emp = _dbContext.EmpInfos.Find(empId);
+            if (emp == null)
+            {
+                return false; // Entity not found, return false or handle accordingly
+            }
+
+            _dbContext.EmpInfos.Remove(emp);
+            _dbContext.SaveChanges();
+            return true; // Entity removed successfully
         }
     }
 }

@@ -20,6 +20,7 @@ namespace BlogDAL.Repository
         public void AddBlogInfo(BlogInfo blogInfo)
         {
             _dbContext.BlogInfos.Add(blogInfo);
+            _dbContext.SaveChanges();
         }
 
         public void DeleteBlogInfo(int blogInfoId)
@@ -68,6 +69,21 @@ namespace BlogDAL.Repository
         {
             _dbContext.Entry(blogInfo).State = EntityState.Modified;
             _dbContext.SaveChanges();
+        }
+
+        public BlogInfo AddBlogInfoTest(BlogInfo blogInfo)
+        {
+            var tempTesting = _dbContext.BlogInfos.Add(blogInfo);
+            _dbContext.SaveChanges();
+            return tempTesting;
+        }
+
+        public BlogInfo DeleteBlogInfoTest(BlogInfo blogInfoId)
+        {
+            BlogInfo temp=_dbContext.BlogInfos.Find(blogInfoId);
+            var tesTingMetod = _dbContext.BlogInfos.Remove(temp);
+            _dbContext.SaveChanges();   
+            return temp;
         }
     }
 }
